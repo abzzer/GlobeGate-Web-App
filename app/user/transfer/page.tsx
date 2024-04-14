@@ -1,55 +1,56 @@
-// // pages/transfer.js
-// import React, { useState } from 'react';
+'use client'
+// pages/TransferPage.tsx
+import React, { useState } from 'react';
+import useBalanceStore from '@/components/useBalanceStore';  // Adjust the path as necessary
+import Image from 'next/image';
 
-// export default function Transfer() {
-//     const [input, setInput] = useState('');
-//     const [balance, setBalance] = useState(58.40);
+const TransferPage = () => {
+    const { balance, addTransaction } = useBalanceStore();
+    const [amount, setAmount] = useState(0);
 
-//     const handleInput = (num) => {
-//         setInput(input + num);
-//     };
+    const handleTransfer = () => {
+        if (amount > 0 && amount <= balance) {
+            addTransaction(-amount);
+            alert(`Successfully transferred €${amount} to Carl.`);
+            setAmount(0);  // Reset amount after transfer
+        } else {
+            alert('Invalid amount.');
+        }
+    };
 
-//     const handleBackspace = () => {
-//         setInput(input.slice(0, -1));
-//     };
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-white flex flex-col items-center py-10">
+            <div className="bg-white text-black rounded-lg p-4 shadow-lg">
+                <div className="flex items-center space-x-4">
+                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow">
+                        <Image src="/images/team-member-04.jpg" alt="Carl" width={96} height={96} />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold">Carl</h2>
+                        <p>@carl</p>
+                    </div>
+                </div>
+                <div className="mt-6">
+                    <h3 className="text-lg font-semibold">Available Balance: €{balance.toFixed(2)}</h3>
+                </div>
+                <div className="mt-6">
+                    <input
+                        type="number"
+                        value={amount}
+                        onChange={(e) => setAmount(Math.max(0, parseFloat(e.target.value)))}
+                        className="input bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                        placeholder="Enter amount to transfer"
+                    />
+                    <button
+                        onClick={handleTransfer}
+                        className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                    >
+                        Transfer to Carl
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
 
-//     return (
-//         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
-//             <div className="bg-white shadow-xl rounded-lg p-6 w-full max-w-md">
-//                 <div className="flex items-center space-x-4">
-//                     <div className="rounded-full h-12 w-12 bg-gray-200 flex items-center justify-center font-bold">G</div>
-//                     <div>
-//                         <h2 className="text-lg font-semibold">Funds Transferred to: Gareth</h2>
-//                         <p className="text-sm text-gray-600">Available balance: ${balance.toFixed(2)}</p>
-//                     </div>
-//                 </div>
-
-//                 <div className="mt-8">
-//                     <div className="bg-gray-100 rounded-lg p-4 mb-4 text-right font-mono text-lg">
-//                         {input || '0.00'}
-//                     </div>
-//                     <div className="grid grid-cols-3 gap-4">
-//                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, '.', 0, '←'].map((item, index) => (
-//                             <button
-//                                 key={index}
-//                                 className="bg-gray-200 rounded-lg p-4 font-bold"
-//                                 onClick={() => item === '←' ? handleBackspace() : handleInput(item.toString())}
-//                             >
-//                                 {item}
-//                             </button>
-//                         ))}
-//                     </div>
-//                 </div>
-
-//                 <div className="flex justify-between mt-8">
-//                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-//                         Cancel
-//                     </button>
-//                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-//                         Confirm
-//                     </button>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
+export default TransferPage;
