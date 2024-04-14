@@ -15,8 +15,8 @@ const getContacts = (): Contact[] => {
   const teamImages = [
     "/images/team-member-01.jpg",
     "/images/team-member-02.jpg",
-    "/images/team-member-03.jpg",
     "/images/team-member-04.jpg",
+    "/images/team-member-03.jpg",
     "/images/team-member-05.jpg",
     "/images/team-member-06.jpg",
     "/images/team-member-07.jpg",
